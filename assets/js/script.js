@@ -9,10 +9,10 @@ const handleSearch = (event) => {
     let weatherURL = `api.openweathermap.org/data/2.5/forecast?q=${searchInput}&appid=aec02913dbb17f078614aebbba4d5805`;
     fetch(weatherURL)
         .then(function(response){
-            return response.json();
+            return response.json()
         })
-        .then(function (data){
-            console.log(data);
+        .then(function(data){
+            console.log(data)
         });
 }
 
