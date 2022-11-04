@@ -2,6 +2,7 @@ const searchButton = document.querySelector(".btn");
 const searchEl = document.querySelector(".form-control");
 const cityInfo = document.querySelector(".city-info");
 const fiveDay = document.querySelector(".five-day");
+const recentSearch = document.querySelector(".recent-search");
 
 const handleSearch = (event) => {
   event.preventDefault();
@@ -16,6 +17,13 @@ const handleSearch = (event) => {
       displayCurrentDate(data);
       displayForecast(event);
     });
+   
+    let addButton = document.createElement("button");
+    addButton.textContent = searchInput;
+    addButton.type="button";
+    addButton.classList = "btn btn-secondary col-12 mt-3";
+    recentSearch.appendChild(addButton);
+    
 };
 
 const displayCurrentDate = (data) => {
@@ -42,6 +50,7 @@ const displayForecast = (event) => {
   event.preventDefault();
   let searchInput = searchEl.value.trim();
   let fiveDayForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${searchInput}&appid=aec02913dbb17f078614aebbba4d5805&units=imperial`;
+  console.log(fiveDayForecast)
   fetch(fiveDayForecast)
     .then(function (response) {
       return response.json();
@@ -52,23 +61,26 @@ const displayForecast = (event) => {
       let count = 0;
       let template = "";
 
-    //   data.list.forEach(function (list) {
-    //     count++;
-
-    //     if ((list.dt_txt = "12:00:00" && count < 6)) {
-    //       template += `
-    //         <div class="card col-2 bg-primary">
-    //             <div class="card-body">
-    //                 <h5><img src="http://openweathermap.org/img/w/${list.weather[0].icon}.png"><h5>
-    //                 <h5>${list.main.temp}°F</h5>
-    //                 <h5>${list.wind.speed} MPH</h5>
-    //                 <h5>${list.main.humidity} %</h5>
-    //             </div>
-    //         </div>`;
-    //       fiveDay.innerHTML = template;
-    //     }
-    //   });
+     
+      data.list.forEach(function (list) {
+        if ((list.dt_txt.split(" ")[1] == "12:00:00" && count < 6)) {
+            count++;
+          template += `
+            <div class="card col-2 bg-primary mx-2">
+                <div class="card-body">
+                    <h5>${list.dt_txt}</h5>
+                    <h5><img src="http://openweathermap.org/img/w/${list.weather[0].icon}.png"><h5>
+                    <h5>${list.main.temp}°F</h5>
+                    <h5>${list.wind.speed} MPH</h5>
+                    <h5>${list.main.humidity} %</h5>
+                </div>
+            </div>`;
+          fiveDay.innerHTML = template;
+        }
+      });
     });
 };
 
+
+// recentSearch.addEventListener("click", )
 searchButton.addEventListener("click", handleSearch);
