@@ -23,7 +23,6 @@ const handleSearch = (event) => {
     addButton.type="button";
     addButton.classList = "btn btn-secondary col-12 mt-3";
     recentSearch.appendChild(addButton);
-    
 };
 
 const displayCurrentDate = (data) => {
@@ -66,9 +65,9 @@ const displayForecast = (event) => {
         if ((list.dt_txt.split(" ")[1] == "12:00:00" && count < 6)) {
             count++;
           template += `
-            <div class="card col-2 bg-primary mx-2">
+            <div class="card col-2 mt-3">
                 <div class="card-body">
-                    <h5>${list.dt_txt}</h5>
+                    <h5>${list.dt_txt.split(" ")[0]}</h5>
                     <h5><img src="http://openweathermap.org/img/w/${list.weather[0].icon}.png"><h5>
                     <h5>${list.main.temp}°F</h5>
                     <h5>${list.wind.speed} MPH</h5>
@@ -81,6 +80,9 @@ const displayForecast = (event) => {
     });
 };
 
+const storeData = (lastSearchData) => {
+    localStorage.setItem('recent', JSON.stringify(lastSearchData))
+}
 
-// recentSearch.addEventListener("click", )
 searchButton.addEventListener("click", handleSearch);
+// searchButton.addEventListener('click', storeData)

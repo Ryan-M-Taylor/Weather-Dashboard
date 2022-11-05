@@ -1,0 +1,8 @@
+.card{
+    background-color: rgb(48, 48, 68);
+    color: white;
+}
+
+header{
+   background: linear-gradient(.25turn, rgb(87, 101, 203), 50%, rgb(52, 7, 118));
+}
