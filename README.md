@@ -10,4 +10,4 @@ This is a weather application that finds the current weather and five-day foreca
 
 ## Link to application
 
-This site was built using [GitHub Pages](https://ryan-m-taylor.github.io/Code-Quiz/)
+This site was built using [GitHub Pages](https://ryan-m-taylor.github.io/Weather-Dashboard/)
