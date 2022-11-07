@@ -6,17 +6,19 @@ const recentSearch = document.querySelector(".recent-search");
 
 let count = 0;
 let template = "";
+var getCurrent = JSON.parse(localStorage.getItem("recentCurrent")) || [];
+var getForecast = JSON.parse(localStorage.getItem("recentForecast")) || [];
 
 const handleSearch = (event) => {
   event.preventDefault();
   let searchInput = searchEl.value.trim();
+  storeData(searchInput);
   let weatherURL = `http://api.openweathermap.org/geo/1.0/direct?q=${searchInput}&limit=1&appid=aec02913dbb17f078614aebbba4d5805`;
   fetch(weatherURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       displayCurrentDate(data);
       displayForecast(event);
     });
@@ -37,7 +39,6 @@ const displayCurrentDate = (data) => {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       const date = new Date();
       let todaysDate = date.toLocaleDateString();
       cityInfo.innerHTML = `
@@ -51,14 +52,13 @@ const displayCurrentDate = (data) => {
 const displayForecast = (event) => {
   event.preventDefault();
   let searchInput = searchEl.value.trim();
+  console.log(searchInput)
   let fiveDayForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${searchInput}&appid=aec02913dbb17f078614aebbba4d5805&units=imperial`;
   fetch(fiveDayForecast)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
-     
       data.list.forEach(function (list) {
         if ((list.dt_txt.split(" ")[1] == "12:00:00" && count < 6)) {
             count++;
@@ -78,21 +78,14 @@ const displayForecast = (event) => {
     });
 };
 
-// const storeData = ({arg1:lastSearchData, arg2:lastForecastData}) => {
-//     localStorage.setItem('recentCurrent', JSON.stringify(lastSearchData))
-//     localStorage.setItem('recentForecast', JSON.stringify(lastForecastData))
-// }
+const storeData = (lastSearchData) => {
+    getCurrent.push(lastSearchData)
+    localStorage.setItem('recentCurrent', JSON.stringify(getCurrent))
+}
 
 searchButton.addEventListener("click", handleSearch);
-// searchButton.addEventListener('click', storeData)
-
-// searchButton.addEventListener("click", function (event) {
-//     event.preventDefault();
-//     handleSearch(event);
-//     var city = { name: searchInput.value};
-//     var getCurrent = JSON.parse(localStorage.getItem("recentCurrent")) || [];
-//     var getForecast = JSON.parse(localStorage.getItem("recentForecast")) || [];
-//     getCurrent.push(city);
-//     getForecast.push(city)
-//     searchInput.value = "";
-//     });
+// recentSearch.addEventListener('click', function (event){
+//     var renderPastSearch = event.target.textContent
+//     displayCurrentDate(renderPastSearch)
+//     displayForecast(renderPastSearch)
+// })
